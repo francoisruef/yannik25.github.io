@@ -61,8 +61,13 @@
     <script>
         function checkGuess() {
             const guess = document.getElementById('guess').value;
-            if (guess === '7276') {
-                const encryptedMessage = "U2FsdGVkX1+YFKNgbXpSUIO47Tkv5FXGb8nxW3/HzRt64FtvJcyub9aFxRaaJs5TIDF0Lg2RSX7F2NYLtNjXo0bl12A8+d7/5DTlPhEZsLg=";
+            const targetHash = 'e621f1b2d15b5a66d4e4dbaf10f73226'; // MD5 hash of '7276'
+
+            // Generate MD5 hash of the guessed number
+            const guessHash = CryptoJS.MD5(guess).toString();
+
+            if (guessHash === targetHash) {
+                const encryptedMessage = "U2FsdGVkX1/3mDZfU6sX6k2Ekm5IkSH6zfwcWz3g6/5L2mJdFz7Gv59NpeGbHRtyzMop/YNVh4MwPZ26h3H+0A==";
                 const passphrase = guess;
                 const bytes = CryptoJS.AES.decrypt(encryptedMessage, passphrase);
                 const message = bytes.toString(CryptoJS.enc.Utf8);
