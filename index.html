@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yannik goes 25!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Yannik goes 25!</h1>
+        <p>Guess a number between 0 and 10000:</p>
+        <input type="number" id="guess" min="0" max="10000" />
+        <br />
+        <button onclick="checkGuess()">Submit Guess</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        function checkGuess() {
+            const guess = document.getElementById('guess').value;
+            const hash = CryptoJS.SHA256(guess).toString();
+            const targetHash = '9dcaf416b20a0a4d1d55f7f2c8cfae1df4d6e09fd8dd8ed8d94290a4c88795b3'; // Hash of 7276
+
+            if (hash === targetHash) {
+                const encryptedMessage = "U2FsdGVkX1+YFKNgbXpSUIO47Tkv5FXGb8nxW3/HzRt64FtvJcyub9aFxRaaJs5TIDF0Lg2RSX7F2NYLtNjXo0bl12A8+d7/5DTlPhEZsLg=";
+                const passphrase = guess;
+                const bytes = CryptoJS.AES.decrypt(encryptedMessage, passphrase);
+                const message = bytes.toString(CryptoJS.enc.Utf8);
+                document.getElementById('message').innerText = message;
+            } else {
+                document.getElementById('message').innerText = "Sorry, that's not the correct number. Try again!";
+            }
+        }
+    </script>
+</body>
+</html>
